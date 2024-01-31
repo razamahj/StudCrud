@@ -1,0 +1,79 @@
+﻿<!-- StudentsWithSubjects.cshtml -->
+@model List<StudCrud.Models.Student>
+
+    <head>
+    <!-- Add these links in your HTML head section -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+    </head>
+
+<h2>Students with Subjects</h2>
+<a asp-action="AddStudents" class="btn btn-primary btn-sm">Add</a>
+
+<table id="studentsTable" class="display">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Subject</th>
+            <th>Year of Study</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.First_name</td>
+                <td>@student.Last_name</td>
+                <td>@student.Subject.SubjectName</td>
+                <td>@student.YearOfStudy</td>
+                <td>
+
+                    <a asp-action="Update" asp-route-id="@student.Id" class="btn btn-primary btn-sm">Update</a>
+                    <button class="btn btn-danger btn-sm" onclick="deleteStudent(@student.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    function deleteStudent(id) {
+        debugger
+        var result = confirm("Are you sure you want to delete this student?");
+        if (result) {
+            // Perform AJAX request to delete the student
+            $.ajax({
+                type: "POST",
+                url: '/Students/Delete/' + id, // Corrected the URL by adding a slash before the id
+                dataType: 'json',
+                success: function (data) {
+                    // Handle success, e.g., remove the corresponding HTML element
+                    // Reload the page or update the UI as needed
+                    location.reload(); // For example, reload the page
+                },
+                error: function (error) {
+                    // Handle error, e.g., show an alert
+                    alert("Error deleting student: " + error.statusText);
+                }
+            });
+        }
+    }
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#studentsTable').DataTable();
+
+    });
+
+ 
+</script>

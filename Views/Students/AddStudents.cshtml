@@ -1,0 +1,17 @@
+﻿@model StudCrud.Models.Student
+
+@{
+    ViewData["Title"] = "Upload Students";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@using (Html.BeginForm("UploadStudents", "Students", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="file">Select File:</label>
+        <input type="file" name="file" id="file" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload Students</button>
+}
